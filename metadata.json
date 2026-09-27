@@ -1,0 +1,6 @@
+{
+  "name": "Vian Capital | Wealth Management, Mutual Funds & Insurance",
+  "description": "Vian Capital (viancapital.in) - Premier AI-powered wealth management, mutual fund investments, insurance solutions, real-time portfolio optimization, and financial analytics platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
