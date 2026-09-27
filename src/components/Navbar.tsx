@@ -12,7 +12,8 @@ import {
   Search,
   ArrowRight,
   UserCheck,
-  ChevronDown
+  ChevronDown,
+  Download
 } from 'lucide-react';
 import { VianLogo } from './VianLogo';
 import { MarketTicker } from './MarketTicker';
@@ -170,6 +171,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
+            {/* Download Website Button */}
+            <a
+              href="/api/download"
+              download="viancapital-website.zip"
+              className="py-2 sm:py-2.5 px-3 rounded-xl border border-slate-300 hover:border-blue-600 bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-900 text-xs font-bold shadow-2xs flex items-center gap-1.5 transition-all"
+              title="Download Complete Website Source Code (ZIP)"
+            >
+              <Download className="w-3.5 h-3.5 text-blue-700" />
+              <span className="hidden sm:inline">Download</span>
+            </a>
+
             {/* Quick Action: Start SIP */}
             <button
               type="button"
@@ -222,13 +234,23 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <div className="pt-2 flex items-center justify-between text-xs text-slate-600">
             <span>Investor: <strong>{userProfile.name}</strong></span>
-            <button
-              type="button"
-              onClick={onSwitchProfile}
-              className="text-blue-700 font-bold text-xs"
-            >
-              Switch Account
-            </button>
+            <div className="flex items-center gap-3">
+              <a
+                href="/api/download"
+                download="viancapital-website.zip"
+                className="text-blue-700 font-bold text-xs flex items-center gap-1"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Download ZIP
+              </a>
+              <button
+                type="button"
+                onClick={onSwitchProfile}
+                className="text-slate-700 font-semibold text-xs"
+              >
+                Switch
+              </button>
+            </div>
           </div>
         </div>
       )}

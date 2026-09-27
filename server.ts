@@ -1,10 +1,15 @@
 import express, { Request, Response } from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -274,6 +279,29 @@ app.post('/api/lead/partner', (req: Request, res: Response) => {
   });
 });
 
+// Direct Project / Website ZIP Download Endpoint
+app.get('/api/download', (_req: Request, res: Response) => {
+  const zipPath = path.resolve(process.cwd(), 'viancapital-website.zip');
+  if (fs.existsSync(zipPath)) {
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename="viancapital-website.zip"');
+    res.sendFile(zipPath);
+  } else {
+    res.status(404).json({ error: 'Archive not found. Please regenerate archive.' });
+  }
+});
+
+app.get('/viancapital-website.zip', (_req: Request, res: Response) => {
+  const zipPath = path.resolve(process.cwd(), 'viancapital-website.zip');
+  if (fs.existsSync(zipPath)) {
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename="viancapital-website.zip"');
+    res.sendFile(zipPath);
+  } else {
+    res.status(404).send('File not found');
+  }
+});
+
 async function startServer() {
   if (!isProduction) {
     const vite = await createViteServer({
@@ -282,7 +310,7 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.resolve(__dirname, 'dist');
+    const distPath = path.resolve(process.cwd(), 'dist');
     app.use(express.static(distPath));
     app.get('*', (_req, res) => {
       res.sendFile(path.resolve(distPath, 'index.html'));
